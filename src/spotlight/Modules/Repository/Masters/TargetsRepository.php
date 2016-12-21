@@ -138,15 +138,15 @@ class TargetsRepository
 
     public function getTargetChannel()
     {
-        $fieldName = ['target.id','target.party'];
-        $orderBy   = ['target.party'];
-        $groupBy   = 'target.party'; 
+            
+        $fieldName = ['target.twitterIdentifier','target.twitterIdentifier'];  
 
         $query  = $this->emMaster->createQueryBuilder()->select($fieldName)->from('Spotlight\Entities\Masters\Targets','target');
         $target_state = $query
-                        ->where('target.party != :party')
-                        ->groupBy($groupBy)
-                        ->setParameter('party', "")
+                        ->where('target.twitterIdentifier != :twitterIdentifier')
+                        ->where('target.facebookIdentifier != :facebookIdentifier')  
+                        ->setParameter('twitterIdentifier', "")
+                        ->setParameter('facebookIdentifier', "")
                         ->getQuery()
                         ->getArrayResult();
             

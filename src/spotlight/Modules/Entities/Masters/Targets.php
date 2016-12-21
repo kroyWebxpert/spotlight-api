@@ -5,9 +5,7 @@ namespace Spotlight\Entities\Masters;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\ArrayCollection;
-//use Doctrine\DBAL\Types\Type; 
-
-
+//use Doctrine\DBAL\Types\Type;  
 
 /**
  * Targets

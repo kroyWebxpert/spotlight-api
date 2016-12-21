@@ -59,6 +59,10 @@ Route::group(['prefix' => 'admin/api/v1'], function()
 	* get target party  
 	*/
 	Route::get('target/party','Api\Controllers\TargetAPIController@targetParty'); 	 
+	/**
+	* get target channel  
+	*/
+	Route::get('target/channel','Api\Controllers\TargetAPIController@targetChannel'); 	 
 	
 
 });

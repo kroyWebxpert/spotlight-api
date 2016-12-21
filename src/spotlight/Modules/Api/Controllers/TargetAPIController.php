@@ -205,8 +205,8 @@ class TargetAPIController extends Controller
 
     public function targetChannel()
     {
-       $data     = $this->targetRepo->getTargetChannel();
-        $message  = "Target  channel list." ;
+       $data        = $this->targetRepo->getTargetChannel();
+        $message    = "Target  channel list." ;
         return Response::json(array(
                     'status' => 1,
                     "code" => 200,

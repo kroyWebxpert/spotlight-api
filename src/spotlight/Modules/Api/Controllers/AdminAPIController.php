@@ -144,6 +144,7 @@ class AdminAPIController extends Controller
 
     public function getCampaignDetailsById(Request $request, $id)
     {   
+        
         $campaign_id = $request->input('campaign_id');
         $campaign_id = isset($campaign_id)?$campaign_id:$id;
         $filter_by = ['id'=> $campaign_id];
