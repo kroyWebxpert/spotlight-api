@@ -1,0 +1,66 @@
+# ###########################################################################
+# The primary container for the spotlight Laravel App
+# ###########################################################################
+admin:
+    image: spotlight/admin:v1
+    links:
+        - redis
+        - spotlight_db
+    volumes:
+        - .:/var/www/app
+        - ./docker/etc/php/date_timezone.ini:/usr/local/etc/php/conf.d/date_timezone.ini:ro
+    working_dir: /var/www/app
+
+# ###########################################################################
+# The nginx container
+# ###########################################################################
+nginx:
+    image: nginx:1.11
+    links: 
+        - admin
+    ports:
+        - 8080:80
+    volumes:
+        - ./docker/etc/nginx/server.conf:/etc/nginx/conf.d/default.conf
+    volumes_from:
+        - admin
+
+# ###########################################################################
+# The redis container for cache
+# ###########################################################################
+redis:
+    image: redis:3
+
+# ###########################################################################
+# The spotlight MySql database
+# ###########################################################################
+spotlight_db:
+    container_name: spotlight_db
+    environment:
+        # This variable is mandatory and specifies the password that will be
+        # set for the MySQL root superuser account.
+        MYSQL_ROOT_PASSWORD: spotlight_root_password
+
+        # This variable is optional and allows you to specify the name of a
+        # database to be created on image startup. If a user/password was
+        # supplied (see below) then that user will be granted superuser access
+        # (corresponding to GRANT ALL) to this database.
+        MYSQL_DATABASE: "${DB_DATABASE}"
+
+        # These variables are optional, used in conjunction to create a new
+        # user and to set that user's password. This user will be granted
+        # superuser permissions (see above) for the database specified by the
+        # MYSQL_DATABASE variable. Both variables are required for a user to be
+        # created.
+        MYSQL_USER: "${DB_USERNAME}"
+        MYSQL_PASSWORD: "${DB_PASSWORD}"
+    expose:
+        - "${DB_PORT}"
+    # This maps our host machine port to the port MySQL is running on inside of
+    # the container. The latter value comes from a .env file.
+    # ports:
+    #     - "8081:${DB_PORT}"
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - "./docker/data/.data/db:/var/lib/mysql"
